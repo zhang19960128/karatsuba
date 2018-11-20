@@ -90,17 +90,23 @@ std::string prod(std::string input1,std::string input2){
       std::string substringone;
       std::string substringtwo;
       size_t middle=floor(input2.size()/2.0);
-      substringone=input2.substr(0,middle-1);
-      substringtwo=input2.substr(middle,input2.size());
-      return add(powerten(prod(substringone,input1),substringtwo.size()),prod(substringtwo,input1));
+      substringone=input2.substr(0,middle);
+      substringtwo=input2.substr(middle,input2.size()-middle);
+      std::string termone;
+      std::string termtwo;
+      termone=powerten(prod(substringone,input1),substringtwo.size());
+      termtwo=prod(substringtwo,input1);
+      return add(termone,termtwo);
    }
    else if(m>=2 && n<2){
       std::string substringone;
       std::string substringtwo;
       size_t middle=floor(input1.size()/2.0);
-      substringone=input1.substr(0,middle-1);
-      substringtwo=input1.substr(middle,input2.size());
-      return add(powerten(prod(substringone,input2),substringtwo.size()),prod(substringtwo,input2));
+      substringone=input1.substr(0,middle);
+      substringtwo=input1.substr(middle,input1.size()-middle);
+      std::string termone=powerten(prod(substringone,input2),substringtwo.size());
+      std::string termtwo=prod(substringtwo,input2);
+      return add(termone,termtwo);
    }
    else{
       std::string a;
@@ -109,10 +115,10 @@ std::string prod(std::string input1,std::string input2){
       std::string d;
       size_t middle1=floor(input1.size()/2.0);
       size_t middle2=floor(input2.size()/2.0);
-      a=input1.substr(0,middle1-1);
-      b=input1.substr(middle1,input1.size());
-      c=input2.substr(0,middle2-1);
-      d=input2.substr(middle2,input2.size());
+      a=input1.substr(0,middle1);
+      b=input1.substr(middle1,input1.size()-middle1);
+      c=input2.substr(0,middle2);
+      d=input2.substr(middle2,input2.size()-middle2);
       size_t na=input1.size()-a.size();
       size_t nc=input2.size()-c.size();
       /*four term
@@ -120,7 +126,7 @@ std::string prod(std::string input1,std::string input2){
        * */
       std::string termone=powerten(prod(a,c),na+nc);
       std::string termtwo=powerten(prod(a,d),na);
-      std::string termthree=powerten(prod(d,c),nc);
+      std::string termthree=powerten(prod(b,c),nc);
       std::string termfour=prod(b,d);
       return add(add(add(termone,termtwo),termthree),termfour);
    }
@@ -128,7 +134,15 @@ std::string prod(std::string input1,std::string input2){
 int main(){
    std::string input1="3141592653589793238462643383279502884197169399375105820974944592";
    std::string input2="2718281828459045235360287471352662497757247093699959574966967627";
-   std::string temp1="7";
-   std::string temp2="10";
+   std::string temp1="1";
+   std::string temp2="1";
    std::cout<<prod(temp1,temp2)<<std::endl;
+   for(size_t i=10;i<10000;i++){
+      std::cout<<i<<std::endl;
+      for(size_t j=10;j<10000;j++){
+         if(prod(std::to_string(i),std::to_string(j))!=std::to_string(i*j)){
+            std::cout<<"fuck you: "<<i<<" "<<j<<std::endl;
+         };
+      }
+   }
 }
